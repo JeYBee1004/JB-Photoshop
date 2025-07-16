@@ -1,25 +1,26 @@
-document.addEventListener('contextmenu', function(event) {
+// Disable right-click globally (optional: remove this if you only want to restrict inspection)
+document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
-    alert('Right-click disabled😊.');
+    alert('Right-click disabled 😊.');
 });
 
-document.addEventListener('keydown', function(event){
-    if(
-        event.ctrlkey && event.shiftkey && event.key === 'I' ||
-        event.key === 'F12'
-        event.ctrlkey && event.shiftkey && event.key === 'J' ||
-        event.ctrlkey && event.key === 'U'
-    )
-{
-    event.preventDefault();
-    alert('Access restricted');
-}
-});
-
-document.querySelectorAll('.-protected-image').forEach(img=>{
-    img.addEventlistener('contextmenu',function(event){
+// Restrict only developer tools shortcuts
+document.addEventListener('keydown', function (event) {
+    const key = event.key;
+    if (
+        (event.ctrlKey && event.shiftKey && (key === 'I' || key === 'J')) || // Ctrl+Shift+I or J
+        key === 'F12' // F12
+    ) {
         event.preventDefault();
-        alert('Right-Click disabled😊.')
+        alert('Developer tools access is restricted!');
+    }
+});
+
+// Disable right-click only on images with class "-protected-image"
+document.querySelectorAll('.-protected-image').forEach(img => {
+    img.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+        alert('Right-click on image disabled 😊.');
     });
 });
 
@@ -34,9 +35,11 @@ document.querySelectorAll('#photoshop .img').forEach(img => {
 // Toggle navigation menu
 const hamburger = document.querySelector('.hamburger');
 const nav = document.querySelector('nav');
-hamburger.addEventListener('click', () => {
-    nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
-});
+if (hamburger && nav) {
+    hamburger.addEventListener('click', () => {
+        nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+    });
+}
 
 // Open image in fullscreen mode
 function openFullscreen(img) {
@@ -55,12 +58,10 @@ function openFullscreen(img) {
         z-index: 1000;
     `;
 
-    // Fullscreen image
     const fullscreenImg = document.createElement('img');
     fullscreenImg.src = img.src;
     fullscreenImg.style.cssText = 'max-width: 100%; max-height: 100%;';
 
-    // Close button
     const closeButton = document.createElement('div');
     closeButton.innerText = '✖';
     closeButton.style.cssText = `
@@ -73,12 +74,10 @@ function openFullscreen(img) {
     `;
     closeButton.addEventListener('click', () => document.body.removeChild(fullscreenDiv));
 
-    // Append elements
     fullscreenDiv.appendChild(fullscreenImg);
     fullscreenDiv.appendChild(closeButton);
     document.body.appendChild(fullscreenDiv);
 
-    // Add fade-in animation
     fullscreenDiv.style.animation = 'fadeIn 0.5s ease-in-out';
 }
 
@@ -97,6 +96,4 @@ style.textContent = `
         animation: fadeIn 0.5s ease-in-out;
     }
 `;
-
-
-
+document.head.appendChild(style);
