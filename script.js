@@ -1,3 +1,28 @@
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+    alert('Right-click disabled😊.');
+});
+
+document.addEventListener('keydown', function(event){
+    if(
+        event.ctrlkey && event.shiftkey && event.key === 'I' ||
+        event.key === 'F12'
+        event.ctrlkey && event.shiftkey && event.key === 'J' ||
+        event.ctrlkey && event.key === 'U'
+    )
+{
+    event.preventDefault();
+    alert('Access restricted');
+}
+});
+
+document.querySelectorAll('.-protected-image').forEach(img=>{
+    img.addEventlistener('contextmenu',function(event){
+        event.preventDefault();
+        alert('Right-Click disabled😊.')
+    });
+});
+
 // Adjust row span dynamically based on image aspect ratio
 document.querySelectorAll('#photoshop .img').forEach(img => {
     img.onload = () => {
