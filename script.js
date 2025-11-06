@@ -1,7 +1,6 @@
 // Disable right-click globally (optional: remove this if you only want to restrict inspection)
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
-    alert('Right-click disabled 😊.');
 });
 
 // Restrict only developer tools shortcuts
@@ -97,3 +96,4 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
